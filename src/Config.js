@@ -237,14 +237,41 @@ export default class Config {
   }
 
   getWorkspaces(): Array<string> | void {
+    // Try the original bolt.workspaces format first for backward compatibility
     let boltConfig = this.getBoltConfig();
-    if (typeof boltConfig === 'undefined') return;
-    let workspaces = boltConfig.workspaces;
-    if (typeof workspaces === 'undefined') return;
-    return toArrayOfStrings(
-      workspaces,
-      `package.json#bolt.workspaces must be an array of globs. See "${this.filePath}"`
-    );
+    if (boltConfig && boltConfig.workspaces) {
+      return toArrayOfStrings(
+        boltConfig.workspaces,
+        `package.json#bolt.workspaces must be an array of globs. See "${this.filePath}"`
+      );
+    }
+    
+    // Try to find workspace patterns in any top-level config section
+    return this.getWorkspacesFromAnyConfig();
+  }
+
+  getWorkspacesFromAnyConfig(): Array<string> | void {
+    let config = this.getConfig();
+    
+    // Known workspace pattern field names
+    const workspaceFieldNames = ['workspaces', 'atomspaces'];
+    
+    // Check each top-level key for workspace patterns
+    for (let key of Object.keys(config)) {
+      let section = config[key];
+      if (typeof section === 'object' && section !== null && !Array.isArray(section)) {
+        for (let fieldName of workspaceFieldNames) {
+          if (section[fieldName] && Array.isArray(section[fieldName])) {
+            return toArrayOfStrings(
+              section[fieldName],
+              `package.json#${key}.${fieldName} must be an array of globs. See "${this.filePath}"`
+            );
+          }
+        }
+      }
+    }
+    
+    return;
   }
 
   getDeps(depType: string): DependencySet | void {

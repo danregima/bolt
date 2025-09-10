@@ -123,3 +123,26 @@ describe('getProjectConfig()', () => {
     expect(found).toBe(path.join(fixturePath, 'package.json'));
   });
 });
+
+describe('getWorkspaces()', () => {
+  it('should get workspaces from bolt.workspaces format', async () => {
+    let fixturePath = f.find('simple-project');
+    let config = await Config.init(path.join(fixturePath, 'package.json'));
+    let workspaces = config.getWorkspaces();
+    expect(workspaces).toEqual(['packages/*']);
+  });
+
+  it('should get workspaces from alternative config format', async () => {
+    let fixturePath = f.find('alternative-workspace-config');
+    let config = await Config.init(path.join(fixturePath, 'package.json'));
+    let workspaces = config.getWorkspaces();
+    expect(workspaces).toEqual(['cogutils/*', 'cogservers/*']);
+  });
+
+  it('should return undefined when no workspace configuration exists', async () => {
+    let fixturePath = f.find('simple-package');
+    let config = await Config.init(path.join(fixturePath, 'package.json'));
+    let workspaces = config.getWorkspaces();
+    expect(workspaces).toBeUndefined();
+  });
+});

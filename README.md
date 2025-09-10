@@ -161,6 +161,22 @@ For examples, for declaring workspaces in sub-directories:
 }
 ```
 
+Bolt also supports alternative workspace configuration formats. For example, using a custom configuration section:
+
+```json
+{
+  "name": "my-cognet",
+  "opencog": {
+    "atomspaces": [
+      "cogutils/*",
+      "cogservers/*"
+    ]
+  }
+}
+```
+
+When both formats are present, the `bolt.workspaces` configuration takes priority.
+
 ## Passing flags to run commands
 
 Depending on your needs you might run a script in one of many ways.

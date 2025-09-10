@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "my-cognet",
+  "version": "1.0.0",
+  "opencog": {
+    "atomspaces": [
+      "cogutils/*",
+      "cogservers/*"
+    ]
+  }
+}

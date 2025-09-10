@@ -61,6 +61,17 @@ describe('Project', () => {
     expect(packages[0]).toBeInstanceOf(Package);
   });
 
+  test('getPackages() with alternative workspace config format', async () => {
+    let project = await Project.init(f.find('alternative-workspace-config'));
+    let packages = await project.getPackages();
+    expect(packages.length).toEqual(2);
+    expect(packages[0]).toBeInstanceOf(Package);
+    
+    // Verify we found the expected packages
+    let packageNames = packages.map(pkg => pkg.getName()).sort();
+    expect(packageNames).toEqual(['pkg1', 'pkg2']);
+  });
+
   test('getDependencyGraph() with nested workspaces', async () => {
     let project = await Project.init(f.find('nested-workspaces'));
     let packages = await project.getPackages();

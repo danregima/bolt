@@ -189,6 +189,10 @@ Bolt also supports alternative workspace configuration formats. For example, usi
 
 When both formats are present, the `bolt.workspaces` configuration takes priority.
 
+### Wildcard Patterns
+
+Bolt uses powerful glob patterns for workspace configuration and filtering. For a comprehensive guide on wildcard patterns including complex nested patterns like `{org[a-z]}/{pro[a-z]}/{wor[a-z]}/{use[a-z]}/{utils,apps}`, see the [Wildcard Guide](WILDCARD_GUIDE.md).
+
 ## Passing flags to run commands
 
 Depending on your needs you might run a script in one of many ways.

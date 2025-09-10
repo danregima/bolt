@@ -6,3 +6,4 @@ coverage/
 example-2
 .vscode/
 **/.DS_Store
+.env

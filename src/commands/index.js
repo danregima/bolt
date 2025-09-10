@@ -42,6 +42,7 @@ module.exports = {
   ...require('./upgradeInteractive'),
   ...require('./version'),
   ...require('./versions'),
+  ...require('./web'),
   ...require('./why'),
   ...require('./workspace'),
   ...require('./workspaces')

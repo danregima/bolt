@@ -90,6 +90,18 @@ command:
 yarn global add bolt
 ```
 
+### Web Interface Demo
+
+This repository now includes a demo web interface inspired by [bolt.new](https://bolt.new):
+
+```sh
+# Run the web interface (no installation required)
+node bolt-web-simple.js web
+# Then open http://localhost:3000
+```
+
+See [WEB_INTERFACE.md](WEB_INTERFACE.md) for more details about the AI-powered development demo.
+
 > Thanks to Cam Pedersen ([@ecto](https://github.com/ecto)) for the "bolt"
 > package name on npm
 

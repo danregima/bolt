@@ -83,6 +83,7 @@ const commandMap = {
   UPGRADE_INTERACTIVE: { 'upgrade-interactive': true },
   VERSION: { version: true },
   VERSIONS: { versions: true },
+  WEB: { web: true },
   WHY: { why: true },
   WORKSPACE: { workspace: true, w: true },
   WORKSPACE_ADD: { add: true },
@@ -339,6 +340,8 @@ function runCommandFromCli(args: options.Args, flags: options.Flags) {
     return commands.version(commands.toVersionOptions(commandArgs, flags));
   } else if (commandMap.VERSIONS[command]) {
     return commands.versions(commands.toVersionsOptions(commandArgs, flags));
+  } else if (commandMap.WEB[command]) {
+    return commands.web(commands.toWebOptions(commandArgs, flags));
   } else if (commandMap.WHY[command]) {
     return commands.why(commands.toWhyOptions(commandArgs, flags));
   } else if (commandMap.WORKSPACE[command]) {

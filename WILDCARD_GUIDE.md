@@ -315,6 +315,86 @@ bolt ws --only="your-pattern"
 bolt ws --only-fs="path/*"
 ```
 
+## Advanced Pattern Examples
+
+Here are specific examples of workspace patterns and their explanations:
+
+### Deep Recursive Matching
+```json
+{
+  "bolt": {
+    "workspaces": ["**/bolt/"]
+  }
+}
+```
+**Explanation**: Matches any directory named `bolt` at any depth in the file system. The `**` recursively searches through all subdirectories, and `/` at the end specifically matches directories (not files).
+
+**Matches**:
+- `packages/bolt/`
+- `src/tools/bolt/`
+- `deep/nested/structure/bolt/`
+- `bolt/` (in current directory)
+
+### Universal Matching
+```json
+{
+  "bolt": {
+    "workspaces": ["**"]
+  }
+}
+```
+**Explanation**: Matches absolutely everything recursively - all directories and subdirectories from the current location. This is the most permissive pattern possible.
+
+**Matches**: Every directory and subdirectory in your project (use with caution!)
+
+### Single Character Wildcard with Paths
+```json
+{
+  "bolt": {
+    "workspaces": ["org?/bolt/**"]
+  }
+}
+```
+**Explanation**: Matches directories that start with "org" followed by exactly one character, then contains a `bolt` directory, and includes everything under that `bolt` directory recursively.
+
+**Matches**:
+- `org1/bolt/package.json`
+- `orgA/bolt/src/index.js`
+- `org_/bolt/utils/helper.js`
+
+**Does NOT match**:
+- `org/bolt/` (missing character after "org")
+- `org12/bolt/` (too many characters after "org")
+
+### Relative Path Navigation
+```json
+{
+  "bolt": {
+    "workspaces": ["../../bolt/**"]
+  }
+}
+```
+**Explanation**: Navigates up two directory levels (`../../`) from the current package.json location, then matches the `bolt` directory and everything under it recursively.
+
+**Example**: If your package.json is in `/project/apps/web/package.json`, this pattern will look for `/project/bolt/**`
+
+**Matches**:
+- `../../bolt/packages/utils`
+- `../../bolt/src/components`
+- `../../bolt/tools/build`
+
+### Double Array Notation
+```json
+{
+  "bolt": {
+    "workspaces": [["bolt/**"]]
+  }
+}
+```
+**Explanation**: This uses double array notation, which is a special Bolt syntax for workspace groups or alternative configuration formats. The inner array `["bolt/**"]` is treated as a single workspace pattern group.
+
+**Note**: This is advanced syntax - in most cases, you should use the single array format: `["bolt/**"]`
+
 ## Technical Details
 
 Bolt uses the following libraries for glob pattern matching:
